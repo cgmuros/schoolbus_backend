@@ -11,11 +11,12 @@ from fastapi.security import OAuth2PasswordRequestForm, OAuth2PasswordBearer
 # from jose import JWTError, jwt
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
+import pytz
 
 
 router = APIRouter(
-    prefix="/auth",
-    tags=["auth"],
+    prefix="/live",
+    tags=["live"],
 )
 
 def get_db():
@@ -27,4 +28,18 @@ def get_db():
 
 
 db_dependency = Annotated[Session, Depends(get_db)]
+
+
+@router.get("/")
+async def live(db: db_dependency):
+    chile_tz = pytz.timezone('Chile/Continental')
+    now = datetime.datetime.now(tz=chile_tz)
+    start_time = now.replace(hour=9, minute=0, second=0, microsecond=0)
+    end_time = now.replace(hour=17, minute=0, second=0, microsecond=0)
+    
+    if start_time <= now <= end_time:
+        return True
+    else:
+        return False
+    
 
