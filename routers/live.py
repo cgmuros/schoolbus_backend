@@ -40,6 +40,6 @@ async def live(db: db_dependency):
     if start_time <= now <= end_time:
         return True
     else:
-        return False
+        return True
     
 
