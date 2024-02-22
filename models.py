@@ -12,7 +12,6 @@ class User(Base):
     last_name = Column(String)
     hashed_password = Column(String)
     is_active = Column(Boolean, default=True)
-    role = Column(Integer, ForeignKey("user_role.id"))
     phone_number = Column(String)
     address = Column(String)
     country_id = Column(Integer, ForeignKey("country.id"))
